@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Накладки AtlasDesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one-screen workbench — 3D stage on the left, spec panel on the right; stacks on phones */
+:root{
+  --bg:#eef0f3; --panel:#ffffff; --ink:#1b2230; --muted:#5d6676; --line:#d6dbe3;
+  --accent:#2f56c9; --accent-ink:#ffffff; --stage:#e3e7ee; --warn:#a4570c;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12161d; --panel:#1a1f28; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3340;
+  --accent:#7d9cff; --accent-ink:#0d1220; --stage:#171c24; --warn:#e8a25a; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#12161d; --panel:#1a1f28; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3340;
+  --accent:#7d9cff; --accent-ink:#0d1220; --stage:#171c24; --warn:#e8a25a; color-scheme:dark }
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px;box-sizing:border-box}
+.wrap{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;height:100%}
+header{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+h1{font-family:var(--f-display);font-weight:700;font-size:28px;margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+.stage{position:relative;background:var(--stage);border:1px solid var(--line);border-radius:14px;min-height:420px;overflow:hidden}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.hint{position:absolute;left:12px;bottom:10px;font:12px var(--f-mono);color:var(--muted)}
+.dims{position:absolute;right:12px;top:10px;font:12px var(--f-mono);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+aside{display:flex;flex-direction:column;gap:14px;min-width:0;overflow:auto}
+section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+h2{font-family:var(--f-display);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0}
+.variants{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.variants button,.toggle{font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;text-align:left}
+.variants button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.variants small{display:block;font-size:12px;opacity:.75}
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.swatches button{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.swatches button[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:2px}
+.toggles{display:flex;flex-wrap:wrap;gap:8px}
+.toggle[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td{padding:5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:last-child{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:8px}
+a{color:var(--accent)}
+.src{color:var(--muted);font-size:12px}
+.flag{color:var(--warn)}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;height:auto}.stage{min-height:0;aspect-ratio:1/1;max-width:100%}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Накладки на AtlasDesign</h1>
+    <p>Прототип для розетки ATN000143 в рамке ATN000101. Накладка надевается поверх рамки, открытым остаётся только гнездо.</p>
+  </header>
+
+  <div class="stage">
+    <canvas id="c" aria-label="3D-вид накладки"></canvas>
+    <div class="dims" id="dims">—</div>
+    <div class="hint">Тяните, чтобы вращать · колесо или щипок для масштаба</div>
+  </div>
+
+  <aside>
+    <section>
+      <h2>Дизайн</h2>
+      <div class="variants" id="variants">
+        <button id="v-plain" data-v="plain" aria-pressed="true">Гладкая<small>база посадки</small></button>
+        <button id="v-spikes" data-v="spikes" aria-pressed="false">Ёж<small>тупые шипы</small></button>
+        <button id="v-waves" data-v="waves" aria-pressed="false">Волны<small>рельеф 1.2 мм</small></button>
+        <button id="v-flower" data-v="flower" aria-pressed="false">Цветок<small>8 лепестков</small></button>
+      </div>
+    </section>
+    <section>
+      <h2>Цвет пластика</h2>
+      <div class="swatches" id="swatches"></div>
+    </section>
+    <section>
+      <h2>Вид</h2>
+      <div class="toggles">
+        <button class="toggle" id="t-socket" aria-pressed="true">Розетка под накладкой</button>
+        <button class="toggle" id="t-explode" aria-pressed="false">Разнести</button>
+        <button class="toggle" id="t-back" aria-pressed="false">Вид сзади</button>
+      </div>
+    </section>
+    <section>
+      <h2>Посадка, мм</h2>
+      <table>
+        <tr><td>Рамка ATN000101, снаружи</td><td>83 × 83</td></tr>
+        <tr><td>Высота рамки над стеной</td><td>12</td></tr>
+        <tr><td>Механизм с панелью</td><td>71 × 71</td></tr>
+        <tr><td>Зазор юбки на сторону</td><td>0.25</td></tr>
+        <tr><td>Рёбра трения внутри юбки</td><td>12 × 0.35</td></tr>
+        <tr><td>Лицевая стенка</td><td>1.6</td></tr>
+        <tr><td class="flag">Отверстие под вилку (замерить)</td><td class="flag">Ø 40</td></tr>
+        <tr><td class="flag">Радиус углов рамки (замерить)</td><td class="flag">R 4</td></tr>
+      </table>
+      <div class="src">83×83×12 и 71×71 взяты из карточек Systeme Electric. Значения, выделенные цветом, нужно замерить на живой розетке.</div>
+    </section>
+    <section>
+      <h2>Скачать</h2>
+      <table>
+        <tr><td>Гладкая</td><td><a href="files/socket_cover_plain.stl" download>STL</a> · <a href="files/socket_cover_plain.step" download>STEP</a></td></tr>
+        <tr><td>Ёж</td><td><a href="files/socket_cover_spikes.stl" download>STL</a> · <a href="files/socket_cover_spikes.step" download>STEP</a></td></tr>
+        <tr><td>Волны</td><td><a href="files/socket_cover_waves.stl" download>STL</a> · <a href="files/socket_cover_waves.step" download>STEP</a></td></tr>
+        <tr><td>Цветок</td><td><a href="files/socket_cover_flower.stl" download>STL</a> · <a href="files/socket_cover_flower.step" download>STEP</a></td></tr>
+        <tr><td>Параметрический скрипт</td><td><a href="files/socket_cover.py" download>.py</a></td></tr>
+      </table>
+    </section>
+  </aside>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+
+const COLORS = [
+  ["Кобальт", "#2f56c9"], ["Коралл", "#d4503f"], ["Бирюза", "#2f8f87"],
+  ["Графит", "#2c3038"], ["Слоновая кость", "#ece6d6"], ["Шалфей", "#8fa58a"]
+];
+const SIZES = { plain:"88.3 × 88.3 × 13.6", spikes:"108.8 × 109.2 × 19.6", waves:"96 × 96 × 14.8", flower:"124 × 124 × 15.6" };
+
+const canvas = document.getElementById("c");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true, preserveDrawingBuffer:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(30, 1, 1, 2000);
+camera.position.set(150, 120, 230);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.target.set(0, 6, 0);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8890a0, 1.4));
+const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(120, 200, 160); scene.add(key);
+const rim = new THREE.DirectionalLight(0xbfd0ff, 0.8); rim.position.set(-150, 60, -120); scene.add(rim);
+
+// Модель — Z вверх (мм), в three — Y вверх
+const root = new THREE.Group(); root.rotation.x = -Math.PI / 2; scene.add(root);
+
+// Упрощённая розетка: стена, рамка 83x83x~9, панель 71x71 до 12, гнездо Ø40
+const socket = new THREE.Group(); root.add(socket);
+const white = new THREE.MeshStandardMaterial({ color:0xf4f5f7, roughness:.45 });
+const dark = new THREE.MeshStandardMaterial({ color:0x9aa0aa, roughness:.6 });
+const frame = new THREE.Mesh(new RoundedBoxGeometry(83, 83, 9, 4, 3.5), white); frame.position.z = 4.5; socket.add(frame);
+const plate = new THREE.Mesh(new RoundedBoxGeometry(68, 68, 12, 4, 3), white); plate.position.z = 6; socket.add(plate);
+const recess = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 1, 64), dark); recess.rotation.x = Math.PI/2; recess.position.z = 12.2; socket.add(recess);
+for (const x of [-9.5, 9.5]) { const h = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 1.2, 24), new THREE.MeshBasicMaterial({color:0x1c1f25})); h.rotation.x = Math.PI/2; h.position.set(x, 0, 12.4); socket.add(h); }
+const wall = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color:0xd9dde4, roughness:1 }));
+wall.position.z = -0.05; root.add(wall);
+
+const mat = new THREE.MeshStandardMaterial({ color:COLORS[0][1], roughness:.38, metalness:0 });
+const loader = new GLTFLoader();
+const cache = {}; let current = null, explode = false, back = false;
+
+function place(){
+  if (!current) return;
+  current.position.z = explode ? 32 : 0;
+}
+async function show(v){
+  document.querySelectorAll("#variants button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === v));
+  document.getElementById("dims").textContent = SIZES[v] + " мм";
+  if (current) root.remove(current);
+  if (!cache[v]) {
+    const g = await loader.loadAsync("models/" + v + ".glb");
+    const obj = g.scene;
+    obj.traverse(o => { if (o.isMesh) { o.material = mat; o.geometry.computeVertexNormals(); } });
+    const wrap = new THREE.Group(); wrap.add(obj); cache[v] = wrap;
+  }
+  current = cache[v]; root.add(current); place();
+}
+
+const sw = document.getElementById("swatches");
+COLORS.forEach(([name, hex], i) => {
+  const b = document.createElement("button"); b.id = "c-" + i; b.title = name; b.setAttribute("aria-label", name);
+  b.style.background = hex; b.setAttribute("aria-pressed", i === 0);
+  b.onclick = () => { mat.color.set(hex); sw.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); };
+  sw.appendChild(b);
+});
+document.querySelectorAll("#variants button").forEach(b => b.onclick = () => show(b.dataset.v));
+const tg = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); fn(on); }; };
+tg("t-socket", on => { socket.visible = on; });
+tg("t-explode", on => { explode = on; place(); });
+tg("t-back", on => {
+  back = on; wall.visible = !on; socket.visible = !on && document.getElementById("t-socket").getAttribute("aria-pressed") === "true";
+  camera.position.set(on ? 150 : 150, on ? -150 : 120, on ? -200 : 230); controls.update();
+});
+
+function resize(){
+  const r = canvas.parentElement.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(canvas.parentElement); resize();
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+show("plain");
+</script>
+</body>
+</html>
