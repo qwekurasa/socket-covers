@@ -2,8 +2,9 @@
 import sys
 from build123d import *
 
-FRONT = 12.0          # лицо механизма над стеной
-BACK = -30.0          # 42 мм общая глубина
+FRONT = 10.0          # лицо крышки над стеной (сверить)
+BACK = -32.0          # 42 мм общая глубина
+COVER = 56.2          # крышка (замер по ортофото)
 REC_R = 19.5          # гнездо Schuko
 REC_FLOOR = FRONT - 17.5
 PIN_X = 9.5
@@ -12,26 +13,26 @@ PIN_X = 9.5
 def plate():
     with BuildPart() as p:
         with BuildSketch():
-            RectangleRounded(71, 71, 3)
+            RectangleRounded(71, 71, 2)
             Rectangle(46.5, 46.5, mode=Mode.SUBTRACT)
-            with Locations((-29, 29), (29, 29), (-29, -29), (29, -29)):
-                Circle(2.1, mode=Mode.SUBTRACT)
-            with Locations((0, 31), (0, -31)):
-                SlotCenterToCenter(10, 4.2, mode=Mode.SUBTRACT)
-            with Locations((-31, 0), (31, 0)):
-                Circle(1.6, mode=Mode.SUBTRACT)
+            with Locations((-31.6, 31.6), (31.6, 31.6), (-31.6, -31.6), (31.6, -31.6)):
+                Circle(2.0, mode=Mode.SUBTRACT)
+            with Locations((1.7, 30.3), (-1.7, -30.3)):
+                SlotCenterToCenter(13, 4.0, mode=Mode.SUBTRACT)
+            with Locations((-30.3, 1.7), (30.3, -1.7)):
+                SlotCenterToCenter(13, 4.0, rotation=90, mode=Mode.SUBTRACT)
         extrude(amount=1.0)
-        # рёбра жёсткости по бокам
-        for x in (-33.2, 33.2):
+        # отбортовка по краям между угловыми отверстиями
+        for x in (-34.7, 34.7):
             with BuildSketch(Plane.XY.offset(1.0)):
                 with Locations((x, 0)):
-                    Rectangle(1.6, 40)
-            extrude(amount=0.8)
-        for y in (-26, 26):
+                    Rectangle(1.6, 50)
+            extrude(amount=0.9)
+        for y in (-34.7, 34.7):
             with BuildSketch(Plane.XY.offset(1.0)):
                 with Locations((0, y)):
-                    Rectangle(34, 1.2)
-            extrude(amount=0.5)
+                    Rectangle(50, 1.6)
+            extrude(amount=0.9)
     return p.part
 
 
@@ -41,9 +42,9 @@ def body():
             RectangleRounded(45, 45, 2)
         extrude(amount=-BACK + 1.0)
         with BuildSketch(Plane.XY.offset(1.0)):
-            RectangleRounded(50, 50, 2.2)
+            RectangleRounded(COVER, COVER, 1.0)
         extrude(amount=FRONT - 1.0)
-        chamfer(b.edges().group_by(Axis.Z)[-1], 0.6)
+        chamfer(b.edges().group_by(Axis.Z)[-1], 0.5)
         # гнездо
         with BuildSketch(Plane.XY.offset(FRONT)):
             Circle(REC_R)
@@ -118,7 +119,7 @@ def screws():
                         Rectangle(r * 1.7, 0.7, rotation=rot)
                 extrude(amount=-0.7, mode=Mode.SUBTRACT)
         return h.part
-    return head(0, 0, REC_FLOOR - 1.2, 3.4) + head(-31, 0, 1.0, 2.8) + head(31, 0, 1.0, 2.8)
+    return head(0, 0, REC_FLOOR - 1.2, 3.4)
 
 
 def claws():
@@ -164,7 +165,7 @@ def frame():
 if __name__ == "__main__":
     out = sys.argv[1]
     parts = dict(plate=plate(), body=body(), shutters=shutters(), clips=earth_clips(),
-                 screws=screws(), claws=claws(), frame=frame())
+                 screws=screws(), claws=claws())
     for n, p in parts.items():
         export_stl(p, f"{out}/mech_{n}.stl", tolerance=0.02, angular_tolerance=0.15)
         bb = p.bounding_box()
