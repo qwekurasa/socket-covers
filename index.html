@@ -3,120 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Накладки AtlasDesign</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Накладки на розетку</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap">
 <style>
-/* Layout: one-screen workbench — 3D stage on the left, spec panel on the right; stacks on phones */
 :root{
-  --bg:#eef0f3; --panel:#ffffff; --ink:#1b2230; --muted:#5d6676; --line:#d6dbe3;
-  --accent:#2f56c9; --accent-ink:#ffffff; --stage:#e3e7ee; --warn:#a4570c;
-  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --f-body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --bg:#f2f2f0; --panel:#ffffff; --ink:#151515; --muted:#8a8a86; --line:#e4e4e0;
+  --f:"Onest", "Helvetica Neue", Arial, sans-serif;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#12161d; --panel:#1a1f28; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3340;
-  --accent:#7d9cff; --accent-ink:#0d1220; --stage:#171c24; --warn:#e8a25a; color-scheme:dark } }
-:root[data-theme="dark"]{
-  --bg:#12161d; --panel:#1a1f28; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3340;
-  --accent:#7d9cff; --accent-ink:#0d1220; --stage:#171c24; --warn:#e8a25a; color-scheme:dark }
-html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px;box-sizing:border-box}
-.wrap{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;height:100%}
-header{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
-h1{font-family:var(--f-display);font-weight:700;font-size:28px;margin:0;letter-spacing:-.01em;text-wrap:balance}
-header p{margin:0;color:var(--muted)}
-.stage{position:relative;background:var(--stage);border:1px solid var(--line);border-radius:14px;min-height:420px;overflow:hidden}
-#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
-.hint{position:absolute;left:12px;bottom:10px;font:12px var(--f-mono);color:var(--muted)}
-.dims{position:absolute;right:12px;top:10px;font:12px var(--f-mono);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
-aside{display:flex;flex-direction:column;gap:14px;min-width:0;overflow:auto}
-section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
-h2{font-family:var(--f-display);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0}
-.variants{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.variants button,.toggle{font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;text-align:left}
-.variants button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.variants small{display:block;font-size:12px;opacity:.75}
-.swatches{display:flex;flex-wrap:wrap;gap:8px}
-.swatches button{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
-.swatches button[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:2px}
-.toggles{display:flex;flex-wrap:wrap;gap:8px}
-.toggle[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:5px 0;border-bottom:1px solid var(--line);vertical-align:top}
-td:last-child{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:8px}
-a{color:var(--accent)}
-.src{color:var(--muted);font-size:12px}
-.flag{color:var(--warn)}
-@media (max-width:860px){.wrap{grid-template-columns:1fr;height:auto}.stage{min-height:0;aspect-ratio:1/1;max-width:100%}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 14px/1.45 var(--f);-webkit-font-smoothing:antialiased}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:100%}
+.stage{position:relative;min-width:0}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
+.brand{position:absolute;left:32px;top:28px;font-weight:600;letter-spacing:-.01em;font-size:15px}
+.brand span{color:var(--muted);font-weight:400}
+.seg{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{font:inherit;border:0;background:transparent;color:var(--muted);padding:7px 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.dims{position:absolute;left:32px;bottom:34px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.panel{background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.scroll{flex:1;overflow:auto;padding:28px 28px 8px}
+h1{font-size:22px;font-weight:500;letter-spacing:-.02em;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 28px}
+.step{border-top:1px solid var(--line);padding:18px 0 22px}
+.step h2{display:flex;justify-content:space-between;font-size:13px;font-weight:500;margin:0 0 14px}
+.step h2 em{font-style:normal;color:var(--muted);font-weight:400}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{font:inherit;color:var(--ink);text-align:left;background:transparent;border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.opt small{color:var(--muted);font-size:12px}
+.opt[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.sw{display:flex;flex-wrap:wrap;gap:10px}
+.sw button{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,.12);cursor:pointer;padding:0}
+.sw button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--ink)}
+.foot{border-top:1px solid var(--line);padding:16px 28px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.foot .meta{font-size:12px;color:var(--muted)}
+.foot .meta b{display:block;color:var(--ink);font-weight:500;font-size:14px}
+.cta{font:500 14px var(--f);background:var(--ink);color:#fff;border:0;border-radius:999px;padding:13px 22px;text-decoration:none;white-space:nowrap}
+button:focus-visible,.cta:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr;grid-template-rows:58vh auto;height:auto}
+  .stage{height:58vh}
+  .brand{left:16px;top:16px}.dims{display:none}.seg{bottom:14px}.seg button{padding:7px 12px;font-size:13px}
+  .panel{border-left:0;border-top:1px solid var(--line)}
+  .scroll{padding:22px 16px 4px}.foot{padding:14px 16px 20px;position:sticky;bottom:0;background:var(--panel)}
+}
 </style>
-
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Накладки на AtlasDesign</h1>
-    <p>Прототип для розетки ATN000143 в рамке ATN000101. Накладка надевается поверх рамки, открытым остаётся только гнездо.</p>
-  </header>
-
+<div class="app">
   <div class="stage">
-    <canvas id="c" aria-label="3D-вид накладки"></canvas>
-    <div class="dims" id="dims">—</div>
-    <div class="hint">Тяните, чтобы вращать · колесо или щипок для масштаба</div>
+    <canvas id="c" aria-label="3D-модель накладки и розетки"></canvas>
+    <div class="brand">накладка <span>/ AtlasDesign</span></div>
+    <div class="dims" id="dims"></div>
+    <div class="seg" role="group" aria-label="Вид">
+      <button id="v-assembled" aria-pressed="true">Собрано</button>
+      <button id="v-exploded" aria-pressed="false">В разборе</button>
+      <button id="v-bare" aria-pressed="false">Без накладки</button>
+    </div>
   </div>
-
-  <aside>
-    <section>
-      <h2>Дизайн</h2>
-      <div class="variants" id="variants">
-        <button id="v-plain" data-v="plain" aria-pressed="true">Гладкая<small>база посадки</small></button>
-        <button id="v-spikes" data-v="spikes" aria-pressed="false">Ёж<small>тупые шипы</small></button>
-        <button id="v-waves" data-v="waves" aria-pressed="false">Волны<small>рельеф 1.2 мм</small></button>
-        <button id="v-flower" data-v="flower" aria-pressed="false">Цветок<small>8 лепестков</small></button>
+  <div class="panel">
+    <div class="scroll">
+      <h1>Накладка на розетку</h1>
+      <p class="sub">Печатается на 3D-принтере и надевается поверх рамки. Видно только гнездо.</p>
+      <div class="step">
+        <h2>1. Форма <em id="l-form"></em></h2>
+        <div class="opts" id="forms">
+          <button class="opt" id="f-plain" data-v="plain"><span>Гладкая</span><small>88 × 88 мм</small></button>
+          <button class="opt" id="f-spikes" data-v="spikes"><span>Ёж</span><small>109 × 109 мм</small></button>
+          <button class="opt" id="f-waves" data-v="waves"><span>Волны</span><small>96 × 96 мм</small></button>
+          <button class="opt" id="f-flower" data-v="flower"><span>Цветок</span><small>124 × 124 мм</small></button>
+        </div>
       </div>
-    </section>
-    <section>
-      <h2>Цвет пластика</h2>
-      <div class="swatches" id="swatches"></div>
-    </section>
-    <section>
-      <h2>Вид</h2>
-      <div class="toggles">
-        <button class="toggle" id="t-socket" aria-pressed="true">Розетка под накладкой</button>
-        <button class="toggle" id="t-explode" aria-pressed="false">Разнести</button>
-        <button class="toggle" id="t-back" aria-pressed="false">Вид сзади</button>
+      <div class="step">
+        <h2>2. Цвет накладки <em id="l-color"></em></h2>
+        <div class="sw" id="colors"></div>
       </div>
-    </section>
-    <section>
-      <h2>Посадка, мм</h2>
-      <table>
-        <tr><td>Рамка ATN000101, снаружи</td><td>83 × 83</td></tr>
-        <tr><td>Высота рамки над стеной</td><td>12</td></tr>
-        <tr><td>Механизм с панелью</td><td>71 × 71</td></tr>
-        <tr><td>Зазор юбки на сторону</td><td>0.25</td></tr>
-        <tr><td>Рёбра трения внутри юбки</td><td>12 × 0.35</td></tr>
-        <tr><td>Лицевая стенка</td><td>1.6</td></tr>
-        <tr><td class="flag">Отверстие под вилку (замерить)</td><td class="flag">Ø 40</td></tr>
-        <tr><td class="flag">Радиус углов рамки (замерить)</td><td class="flag">R 4</td></tr>
-      </table>
-      <div class="src">83×83×12 и 71×71 взяты из карточек Systeme Electric. Значения, выделенные цветом, нужно замерить на живой розетке.</div>
-    </section>
-    <section>
-      <h2>Скачать</h2>
-      <table>
-        <tr><td>Гладкая</td><td><a href="files/socket_cover_plain.stl" download>STL</a> · <a href="files/socket_cover_plain.step" download>STEP</a></td></tr>
-        <tr><td>Ёж</td><td><a href="files/socket_cover_spikes.stl" download>STL</a> · <a href="files/socket_cover_spikes.step" download>STEP</a></td></tr>
-        <tr><td>Волны</td><td><a href="files/socket_cover_waves.stl" download>STL</a> · <a href="files/socket_cover_waves.step" download>STEP</a></td></tr>
-        <tr><td>Цветок</td><td><a href="files/socket_cover_flower.stl" download>STL</a> · <a href="files/socket_cover_flower.step" download>STEP</a></td></tr>
-        <tr><td>Параметрический скрипт</td><td><a href="files/socket_cover.py" download>.py</a></td></tr>
-      </table>
-    </section>
-  </aside>
+      <div class="step">
+        <h2>3. Розетка <em id="l-socket"></em></h2>
+        <div class="opts" id="sockets">
+          <button class="opt" id="s-carbon" data-s="carbon"><span>Карбон</span><small>ATN001045</small></button>
+          <button class="opt" id="s-white" data-s="white"><span>Белый</span><small>ATN000145</small></button>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="meta"><b id="sum"></b>рамка ATN000101, 1 пост</div>
+      <a class="cta" id="dl" href="files/socket_cover_plain.stl" download>Скачать STL</a>
+    </div>
+  </div>
 </div>
 
 <script type="importmap">
@@ -126,86 +102,164 @@ a{color:var(--accent)}
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
-const COLORS = [
-  ["Кобальт", "#2f56c9"], ["Коралл", "#d4503f"], ["Бирюза", "#2f8f87"],
-  ["Графит", "#2c3038"], ["Слоновая кость", "#ece6d6"], ["Шалфей", "#8fa58a"]
-];
-const SIZES = { plain:"88.3 × 88.3 × 13.6", spikes:"108.8 × 109.2 × 19.6", waves:"96 × 96 × 14.8", flower:"124 × 124 × 15.6" };
+const FORMS = { plain:"Гладкая", spikes:"Ёж", waves:"Волны", flower:"Цветок" };
+const DIMS = { plain:"88 × 88 × 14", spikes:"109 × 109 × 20", waves:"96 × 96 × 15", flower:"124 × 124 × 16" };
+const COLORS = [["Графит","#2b2c2e"],["Мел","#efede8"],["Терракота","#b5563c"],["Шалфей","#93a38c"],["Кобальт","#2f4fb0"],["Охра","#d29a32"],["Пыльная роза","#c99a94"]];
+const SOCKET = { carbon:["Карбон","#2a2b2d"], white:["Белый","#f1f1ee"] };
+const state = { form:"plain", color:0, socket:"carbon", view:"assembled" };
 
+// ---------- renderer ----------
 const canvas = document.getElementById("c");
-const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true, preserveDrawingBuffer:true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(30, 1, 1, 2000);
-camera.position.set(150, 120, 230);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(26, 1, 1, 3000);
+camera.position.set(-300, 150, 330);
 const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true; controls.target.set(0, 6, 0);
+controls.enableDamping = true; controls.enablePan = false; controls.minDistance = 200; controls.maxDistance = 800;
+controls.target.set(0, 0, 0);
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(-120, 180, 220);
+key.castShadow = true; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 6; key.shadow.bias = -0.0005;
+Object.assign(key.shadow.camera, { left:-120, right:120, top:120, bottom:-120, near:10, far:800 });
+scene.add(key, new THREE.AmbientLight(0xffffff, 0.25));
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0x8890a0, 1.4));
-const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(120, 200, 160); scene.add(key);
-const rim = new THREE.DirectionalLight(0xbfd0ff, 0.8); rim.position.set(-150, 60, -120); scene.add(rim);
-
-// Модель — Z вверх (мм), в three — Y вверх
-const root = new THREE.Group(); root.rotation.x = -Math.PI / 2; scene.add(root);
-
-// Упрощённая розетка: стена, рамка 83x83x~9, панель 71x71 до 12, гнездо Ø40
-const socket = new THREE.Group(); root.add(socket);
-const white = new THREE.MeshStandardMaterial({ color:0xf4f5f7, roughness:.45 });
-const dark = new THREE.MeshStandardMaterial({ color:0x9aa0aa, roughness:.6 });
-const frame = new THREE.Mesh(new RoundedBoxGeometry(83, 83, 9, 4, 3.5), white); frame.position.z = 4.5; socket.add(frame);
-const plate = new THREE.Mesh(new RoundedBoxGeometry(68, 68, 12, 4, 3), white); plate.position.z = 6; socket.add(plate);
-const recess = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 1, 64), dark); recess.rotation.x = Math.PI/2; recess.position.z = 12.2; socket.add(recess);
-for (const x of [-9.5, 9.5]) { const h = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 1.2, 24), new THREE.MeshBasicMaterial({color:0x1c1f25})); h.rotation.x = Math.PI/2; h.position.set(x, 0, 12.4); socket.add(h); }
-const wall = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color:0xd9dde4, roughness:1 }));
-wall.position.z = -0.05; root.add(wall);
-
-const mat = new THREE.MeshStandardMaterial({ color:COLORS[0][1], roughness:.38, metalness:0 });
-const loader = new GLTFLoader();
-const cache = {}; let current = null, explode = false, back = false;
-
-function place(){
-  if (!current) return;
-  current.position.z = explode ? 32 : 0;
+// ---------- procedural textures ----------
+function canvasTex(size, draw, repeat = 1){
+  const c = document.createElement("canvas"); c.width = c.height = size; draw(c.getContext("2d"), size);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat, repeat); t.anisotropy = 8; return t;
 }
-async function show(v){
-  document.querySelectorAll("#variants button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === v));
-  document.getElementById("dims").textContent = SIZES[v] + " мм";
-  if (current) root.remove(current);
-  if (!cache[v]) {
-    const g = await loader.loadAsync("models/" + v + ".glb");
-    const obj = g.scene;
-    obj.traverse(o => { if (o.isMesh) { o.material = mat; o.geometry.computeVertexNormals(); } });
-    const wrap = new THREE.Group(); wrap.add(obj); cache[v] = wrap;
+const rnd = (a, b) => a + Math.random() * (b - a);
+// оцинковка: «цветы» кристаллов
+const spangle = canvasTex(1024, (g, s) => {
+  g.fillStyle = "#9a9da2"; g.fillRect(0, 0, s, s);
+  for (let i = 0; i < 260; i++) {
+    const x = rnd(0, s), y = rnd(0, s), r = rnd(25, 80), n = 7 + (Math.random() * 5 | 0);
+    g.beginPath();
+    for (let k = 0; k < n; k++) { const a = k / n * Math.PI * 2 + rnd(-.3, .3), rr = r * rnd(.6, 1.1); g.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
+    const v = rnd(130, 200) | 0; g.fillStyle = `rgba(${v},${v + 2},${v + 6},.55)`; g.fill();
   }
-  current = cache[v]; root.add(current); place();
+  const img = g.getImageData(0, 0, s, s), d = img.data;
+  for (let i = 0; i < d.length; i += 4) { const n = rnd(-10, 10); d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  g.putImageData(img, 0, 0);
+}, 0.012);
+spangle.colorSpace = THREE.SRGBColorSpace;
+// мелкая шагрень пластика
+const grain = canvasTex(512, (g, s) => {
+  const img = g.createImageData(s, s), d = img.data;
+  for (let i = 0; i < d.length; i += 4) { const v = 128 + rnd(-45, 45); d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+  g.putImageData(img, 0, 0);
+}, 0.08);
+// слои FDM-печати 0.2 мм
+const layers = canvasTex(256, (g, s) => {
+  for (let y = 0; y < s; y++) { const v = 128 + 70 * Math.sin(y / s * Math.PI * 2 * 32) + rnd(-8, 8); g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(0, y, s, 1); }
+}, 0.156);
+
+// box-проекция UV в мм (у STL нет развёртки)
+function boxUV(geo){
+  geo = geo.index ? geo.toNonIndexed() : geo; geo.computeVertexNormals();
+  const p = geo.attributes.position, n = geo.attributes.normal, uv = new Float32Array(p.count * 2);
+  for (let i = 0; i < p.count; i++) {
+    const ax = Math.abs(n.getX(i)), ay = Math.abs(n.getY(i)), az = Math.abs(n.getZ(i));
+    let u, v;
+    if (az >= ax && az >= ay) { u = p.getX(i); v = p.getY(i); }
+    else if (ax >= ay) { u = p.getY(i); v = p.getZ(i); }
+    else { u = p.getX(i); v = p.getZ(i); }
+    uv[i * 2] = u; uv[i * 2 + 1] = v;
+  }
+  geo.setAttribute("uv", new THREE.BufferAttribute(uv, 2)); return geo;
 }
 
-const sw = document.getElementById("swatches");
+// ---------- materials ----------
+const M = {
+  steel: new THREE.MeshStandardMaterial({ map:spangle, metalness:1, roughness:.42, roughnessMap:grain }),
+  zinc: new THREE.MeshStandardMaterial({ color:0xc4c7cc, metalness:1, roughness:.28 }),
+  nickel: new THREE.MeshStandardMaterial({ color:0xd8dadd, metalness:1, roughness:.18 }),
+  body: new THREE.MeshStandardMaterial({ color:SOCKET.carbon[1], roughness:.62, bumpMap:grain, bumpScale:.4 }),
+  frame: new THREE.MeshStandardMaterial({ color:SOCKET.carbon[1], roughness:.5, bumpMap:grain, bumpScale:.3 }),
+  shutter: new THREE.MeshStandardMaterial({ color:0x5d6064, roughness:.5 }),
+  cover: new THREE.MeshPhysicalMaterial({ color:COLORS[0][1], roughness:.5, clearcoat:.15, clearcoatRoughness:.6, bumpMap:layers, bumpScale:.6 }),
+};
+const PART_MAT = { plate:"steel", claws:"steel", screws:"zinc", clips:"nickel", body:"body", frame:"frame", shutters:"shutter" };
+
+// модель: Z к зрителю (как в CAD), Y вверх — совпадает с осями three
+const root = new THREE.Group(); scene.add(root);
+const parts = {}; const covers = {};
+const loader = new GLTFLoader();
+const EXPLODE = { claws:-45, plate:0, body:0, shutters:0, clips:0, screws:0, frame:50, cover:115 };
+let target = { ...EXPLODE }; Object.keys(target).forEach(k => target[k] = 0);
+const cur = { ...target };
+
+function prep(obj, mat){
+  obj.traverse(o => { if (o.isMesh) { o.geometry = boxUV(o.geometry); o.material = mat; o.castShadow = o.receiveShadow = true; } });
+  return obj;
+}
+loader.load("models/socket.glb", g => {
+  g.scene.children.slice().forEach(node => {
+    const name = node.name; const holder = new THREE.Group(); holder.add(node);
+    prep(node, M[PART_MAT[name]]); parts[name] = holder; root.add(holder);
+  });
+});
+async function loadCover(v){
+  if (!covers[v]) { const g = await loader.loadAsync(`models/${v}.glb`); const h = new THREE.Group(); h.add(prep(g.scene, M.cover)); covers[v] = h; }
+  return covers[v];
+}
+let coverNode = null;
+async function setForm(v){
+  state.form = v; render();
+  const node = await loadCover(v);
+  if (state.form !== v) return;
+  if (coverNode) root.remove(coverNode);
+  coverNode = node; root.add(node); applyView();
+}
+function applyView(){
+  const ex = state.view === "exploded";
+  for (const k in target) target[k] = ex ? EXPLODE[k] : 0;
+  if (coverNode) coverNode.visible = state.view !== "bare";
+}
+
+// ---------- UI ----------
+const $ = id => document.getElementById(id);
+const sw = $("colors");
 COLORS.forEach(([name, hex], i) => {
-  const b = document.createElement("button"); b.id = "c-" + i; b.title = name; b.setAttribute("aria-label", name);
-  b.style.background = hex; b.setAttribute("aria-pressed", i === 0);
-  b.onclick = () => { mat.color.set(hex); sw.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); };
-  sw.appendChild(b);
+  const b = document.createElement("button"); b.id = "c-" + i; b.title = name; b.setAttribute("aria-label", name); b.style.background = hex;
+  b.onclick = () => { state.color = i; M.cover.color.set(hex); render(); }; sw.appendChild(b);
 });
-document.querySelectorAll("#variants button").forEach(b => b.onclick = () => show(b.dataset.v));
-const tg = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); fn(on); }; };
-tg("t-socket", on => { socket.visible = on; });
-tg("t-explode", on => { explode = on; place(); });
-tg("t-back", on => {
-  back = on; wall.visible = !on; socket.visible = !on && document.getElementById("t-socket").getAttribute("aria-pressed") === "true";
-  camera.position.set(on ? 150 : 150, on ? -150 : 120, on ? -200 : 230); controls.update();
+document.querySelectorAll("#forms .opt").forEach(b => b.onclick = () => setForm(b.dataset.v));
+document.querySelectorAll("#sockets .opt").forEach(b => b.onclick = () => {
+  state.socket = b.dataset.s; const c = SOCKET[state.socket][1]; M.body.color.set(c); M.frame.color.set(c); render();
 });
+[["v-assembled","assembled"],["v-exploded","exploded"],["v-bare","bare"]].forEach(([id, v]) => $(id).onclick = () => { state.view = v; applyView(); render(); });
+function render(){
+  document.querySelectorAll("#forms .opt").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.form));
+  document.querySelectorAll("#sockets .opt").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === state.socket));
+  sw.querySelectorAll("button").forEach((b, i) => b.setAttribute("aria-pressed", i === state.color));
+  ["assembled","exploded","bare"].forEach(v => $("v-" + v).setAttribute("aria-pressed", state.view === v));
+  $("l-form").textContent = FORMS[state.form]; $("l-color").textContent = COLORS[state.color][0]; $("l-socket").textContent = SOCKET[state.socket][0];
+  $("dims").textContent = DIMS[state.form] + " мм";
+  $("sum").textContent = `${FORMS[state.form]}, ${COLORS[state.color][0].toLowerCase()}`;
+  $("dl").href = `files/socket_cover_${state.form}.stl`;
+}
 
 function resize(){
   const r = canvas.parentElement.getBoundingClientRect();
   renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix();
 }
 new ResizeObserver(resize).observe(canvas.parentElement); resize();
-renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
-show("plain");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+renderer.setAnimationLoop(() => {
+  const k = reduce ? 1 : 0.12;
+  for (const p in cur) cur[p] += (target[p] - cur[p]) * k;
+  for (const n in parts) parts[n].position.z = cur[n] ?? 0;
+  if (coverNode) coverNode.position.z = cur.cover;
+  controls.update(); renderer.render(scene, camera);
+});
+render(); setForm("plain");
 </script>
 </body>
 </html>
