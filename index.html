@@ -222,7 +222,7 @@ function boxUV(geo){
 
 // ---------- materials ----------
 const M = {
-  steel: new THREE.MeshStandardMaterial({ map:spangle, metalness:1, roughness:.42, roughnessMap:grain }),
+  steel: new THREE.MeshStandardMaterial({ map:spangle, color:0xd9dbe0, metalness:.85, roughness:.5, roughnessMap:grain }),
   zinc: new THREE.MeshStandardMaterial({ color:0xc4c7cc, metalness:1, roughness:.28 }),
   nickel: new THREE.MeshStandardMaterial({ color:0xd8dadd, metalness:1, roughness:.18 }),
   body: new THREE.MeshStandardMaterial({ color:SOCKET.white[1], roughness:.55, bumpMap:grain, bumpScale:.3 }),
@@ -232,7 +232,7 @@ const M = {
   p1: new THREE.MeshPhysicalMaterial({ color:0x23439b, roughness:.45, bumpMap:layers, bumpScale:.4 }),
   p2: new THREE.MeshPhysicalMaterial({ color:0xc0583c, roughness:.45, bumpMap:layers, bumpScale:.4 }),
 };
-const PART_MAT = { plate:"steel", claws:"steel", screws:"zinc", clips:"nickel", body:"body", frame:"frame", shutters:"shutter" };
+const PART_MAT = { plate:"steel", claws:"steel", screws:"zinc", clips:"nickel", core:"body", cover:"body", frame:"frame", shutters:"shutter" };
 
 // ---------- environments (мм; стена z=0, розетка в 0,0) ----------
 const env = { studio:new THREE.Group(), kitchen:new THREE.Group(), room:new THREE.Group() };
@@ -288,33 +288,35 @@ function setScene(name, moveCam = true){
 const root = new THREE.Group(); scene.add(root);
 const parts = {}, covers = {};
 const loader = new GLTFLoader();
-const EXPLODE = { claws:-50, plate:0, body:0, shutters:0, clips:0, screws:0, frame:0, cover:70 };
+// порядок сборки: механизм → накладка (или рамка) → крышка на винт
+const EXPLODE = { claws:-45, plate:0, core:0, shutters:0, clips:0, screws:0, frame:38, overlay:38, cover:80 };
 const target = {}, cur = {}; for (const k in EXPLODE){ target[k] = 0; cur[k] = 0; }
 function prep(obj, mat){ obj.traverse(o => { if (o.isMesh){ o.geometry = boxUV(o.geometry); o.material = mat; o.castShadow = o.receiveShadow = true; } }); return obj; }
 loader.load("models/socket.glb", g => {
   g.scene.children.slice().forEach(node => { const name = node.name, holder = new THREE.Group(); holder.add(node); prep(node, M[PART_MAT[name]]); parts[name] = holder; root.add(holder); });
   applyView(); setScene(state.scene, false);
 });
-async function loadCover(v){
-  if (!covers[v]){
-    const g = await loader.loadAsync(`models/${v}.glb`); const h = new THREE.Group();
-    g.scene.traverse(o => { if (o.isMesh){ o.geometry = boxUV(o.geometry); o.material = M[o.name in M && o.name !== "body" ? o.name : "cover"]; o.castShadow = o.receiveShadow = true; } });
-    h.add(g.scene); covers[v] = h;
-  }
+function loadCover(v){
+  if (!covers[v]) covers[v] = loader.loadAsync(`models/${v}.glb`).then(g => {
+    const h = new THREE.Group();
+    g.scene.traverse(o => { if (o.isMesh){ o.geometry = boxUV(o.geometry); o.material = M[o.name === "p1" || o.name === "p2" ? o.name : "cover"]; o.castShadow = o.receiveShadow = true; } });
+    h.add(g.scene); return h;
+  });
   return covers[v];
 }
 let coverNode = null;
 async function setForm(v, resetColor = true){
   state.form = v; const F = FORMS[v];
+  render(); $("dims").textContent = "Загрузка модели…";
+  const node = await loadCover(v); if (state.form !== v) return;
   if (resetColor){ state.color = F.color; M.cover.color.set(COLORS[state.color][1]); }
   if (F.pat){ for (const p in F.pat) M[p].color.set(F.pat[p][0]); }
-  render();
-  const node = await loadCover(v); if (state.form !== v) return;
-  if (coverNode) root.remove(coverNode); coverNode = node; root.add(node); applyView();
+  if (coverNode) root.remove(coverNode); coverNode = node; root.add(node); applyView(); render();
 }
 function applyView(){
   const ex = state.view === "exploded";
   for (const k in target) target[k] = ex ? EXPLODE[k] : 0;
+  shadowWall.visible = !ex;
   if (coverNode) coverNode.visible = state.view !== "original";
   if (parts.frame) parts.frame.visible = state.view === "original";
 }
@@ -357,14 +359,16 @@ function render(){
 function resize(){ const r = canvas.parentElement.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
 new ResizeObserver(resize).observe(canvas.parentElement); resize();
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clock = new THREE.Clock();
 renderer.setAnimationLoop(() => {
-  const k = reduce ? 1 : 0.12;
+  const k = reduce ? 1 : 1 - Math.exp(-clock.getDelta() * 7);
   for (const p in cur) cur[p] += (target[p] - cur[p]) * k;
   for (const n in parts) parts[n].position.z = cur[n] ?? 0;
-  if (coverNode) coverNode.position.z = cur.cover;
+  if (coverNode) coverNode.position.z = cur.overlay;
   controls.update(); renderer.render(scene, camera);
 });
-setScene("studio"); setForm(state.form);
+setScene("studio");
+setForm(state.form).then(async () => { for (const k in FORMS) { try { await loadCover(k); } catch (e) {} } });
 </script>
 </body>
 </html>
