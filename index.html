@@ -287,17 +287,18 @@ function setScene(name, moveCam = true){
 // ---------- models ----------
 const root = new THREE.Group(); scene.add(root);
 const parts = {}, covers = {};
+const VER = 3; // менять при обновлении моделей, чтобы браузер не брал старые из кэша
 const loader = new GLTFLoader();
 // порядок сборки: механизм → накладка (или рамка) → крышка на винт
 const EXPLODE = { claws:-45, plate:0, core:0, shutters:0, clips:0, screws:0, frame:38, overlay:38, cover:80 };
 const target = {}, cur = {}; for (const k in EXPLODE){ target[k] = 0; cur[k] = 0; }
 function prep(obj, mat){ obj.traverse(o => { if (o.isMesh){ o.geometry = boxUV(o.geometry); o.material = mat; o.castShadow = o.receiveShadow = true; } }); return obj; }
-loader.load("models/socket.glb", g => {
+loader.load(`models/socket.glb?v=${VER}`, g => {
   g.scene.children.slice().forEach(node => { const name = node.name, holder = new THREE.Group(); holder.add(node); prep(node, M[PART_MAT[name]]); parts[name] = holder; root.add(holder); });
   applyView(); setScene(state.scene, false);
 });
 function loadCover(v){
-  if (!covers[v]) covers[v] = loader.loadAsync(`models/${v}.glb`).then(g => {
+  if (!covers[v]) covers[v] = loader.loadAsync(`models/${v}.glb?v=${VER}`).then(g => {
     const h = new THREE.Group();
     g.scene.traverse(o => { if (o.isMesh){ o.geometry = boxUV(o.geometry); o.material = M[o.name === "p1" || o.name === "p2" ? o.name : "cover"]; o.castShadow = o.receiveShadow = true; } });
     h.add(g.scene); return h;
